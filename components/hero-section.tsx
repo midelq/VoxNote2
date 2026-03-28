@@ -17,19 +17,12 @@ export function HeroSection({ initialIsSignedIn, limitReached }: { initialIsSign
           Powered by OpenAI Whisper & GPT-4
         </Badge>
 
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 leading-tight">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-12 leading-tight text-white">
           Your Voice,{" "}
           <span className="gradient-text">Transcribed</span>
           <br />
           Instantly
         </h1>
-
-        <p className="text-lg sm:text-xl text-gray-400 mb-4 max-w-2xl mx-auto leading-relaxed">
-          Speak into your microphone and let AI convert your voice to text in seconds.
-          First recording is <span className="text-violet-400 font-semibold">completely free</span>.
-        </p>
-
-        <p className="text-sm text-gray-500 mb-12">No credit card required to start</p>
 
         {/* Voice Recorder Widget */}
         <div className="max-w-2xl mx-auto">
