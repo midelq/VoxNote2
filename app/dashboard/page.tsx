@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { VoiceRecorder } from "@/components/voice-recorder";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Mic, History, Plus } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
@@ -59,53 +60,51 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen pt-24 pb-12 px-4 bg-[hsl(240,10%,3.9%)]">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: Recorder */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-full bg-violet-600/20 flex items-center justify-center">
-              <Plus className="w-6 h-6 text-violet-400" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold text-white">New Recording</h1>
-              <p className="text-gray-400 text-sm">Transcribe your voice now</p>
-            </div>
-          </div>
-
-          <VoiceRecorder initialIsSignedIn={true} limitReached={!isPro && monthlyCount >= 2} />
-
-          {/* Subscription Card */}
-          <Card className="glass border-white/5">
-            <CardHeader>
-              <CardTitle className="text-sm font-semibold flex items-center gap-2">
-                <Mic className="w-4 h-4 text-violet-400" /> Your Subscription
+        <div className="lg:col-span-4 flex flex-col gap-6">
+          {/* Subscription Card - Enhanced Visibility */}
+          <Card className="glass border-violet-500/30 shadow-[0_0_20px_rgba(139,92,246,0.1)] overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-violet-600/10 blur-3xl -z-10" />
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base font-black flex items-center gap-2 text-white uppercase tracking-tighter">
+                <Mic className="w-5 h-5 text-violet-400" /> Your Subscription
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-400 uppercase tracking-wider">Active Plan</span>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between bg-white/5 p-4 rounded-xl border border-white/5">
+                <span className="text-sm font-bold text-white uppercase tracking-widest">Active Plan</span>
                 {isPro ? (
-                  <Badge className="bg-green-600/20 text-green-400 border-green-500/20">
-                    Pro Member
+                  <Badge className="bg-violet-600 text-white border-none px-4 py-1 text-xs font-black shadow-[0_0_15px_rgba(139,92,246,0.5)] animate-pulse-slow">
+                    PRO MEMBER
                   </Badge>
                 ) : (
-                  <Badge className="bg-gray-600/20 text-gray-400 border-gray-500/20">
+                  <Badge className="bg-gray-600/20 text-gray-400 border-gray-500/20 px-4 py-1">
                     Free Plan
                   </Badge>
                 )}
               </div>
+              
               {!isPro && (
-                <div className="text-xs text-gray-500 flex justify-between items-center">
-                  <span>Recordings this month:</span>
-                  <span className={monthlyCount >= 2 ? "text-red-400 font-semibold" : "text-gray-300"}>
-                    {monthlyCount} / 2
-                  </span>
+                <div className="space-y-2">
+                  <div className="text-xs text-gray-400 flex justify-between items-center font-medium">
+                    <span>Monthly Usage:</span>
+                    <span className={monthlyCount >= 2 ? "text-red-400 font-black" : "text-violet-300"}>
+                      {monthlyCount} / 2 recordings
+                    </span>
+                  </div>
+                  <div className="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full transition-all duration-500 ${monthlyCount >= 2 ? 'bg-red-500' : 'bg-violet-500'}`}
+                      style={{ width: `${Math.min((monthlyCount / 2) * 100, 100)}%` }}
+                    />
+                  </div>
                 </div>
               )}
+
               {!isPro && (
-                <Link href="/pricing">
-                  <div className="mt-2 text-center text-xs text-violet-400 hover:text-violet-300 cursor-pointer transition-colors">
-                    Upgrade to Pro →
-                  </div>
+                <Link href="/pricing" className="block">
+                  <Button className="w-full bg-violet-600 hover:bg-violet-500 text-white font-black py-6 shadow-lg shadow-violet-600/20 transition-all hover:scale-[1.02]">
+                    Upgrade to Pro Access
+                  </Button>
                 </Link>
               )}
             </CardContent>
