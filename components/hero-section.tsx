@@ -4,7 +4,7 @@ import { VoiceRecorder } from "@/components/voice-recorder";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles } from "lucide-react";
 
-export function HeroSection() {
+export function HeroSection({ initialIsSignedIn }: { initialIsSignedIn?: boolean }) {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-16">
       {/* Background glow effects */}
@@ -33,7 +33,7 @@ export function HeroSection() {
 
         {/* Voice Recorder Widget */}
         <div className="max-w-2xl mx-auto">
-          <VoiceRecorder />
+          <VoiceRecorder initialIsSignedIn={initialIsSignedIn} />
         </div>
       </div>
     </section>
