@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
-import { Mic, Loader2, Play, Trash2, ArrowRight, StopCircle, Zap } from "lucide-react";
+import { useState, useRef, useCallback, useEffect } from "react";
+import { Mic, Loader2, Play, Trash2, ArrowRight, StopCircle, Zap, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -14,6 +14,15 @@ export function VoiceRecorder({ initialIsSignedIn, limitReached }: { initialIsSi
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [guestLimitReached, setGuestLimitReached] = useState(false);
+
+  // Check on mount if guest already used their free recording
+  useEffect(() => {
+    if (!initialIsSignedIn) {
+      const used = localStorage.getItem("voxnote_free_used");
+      if (used) setGuestLimitReached(true);
+    }
+  }, [initialIsSignedIn]);
 
   // Store everything in refs to avoid closure issues
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
@@ -112,6 +121,10 @@ export function VoiceRecorder({ initialIsSignedIn, limitReached }: { initialIsSi
     setAudioUrl(null);
     setTranscript(null);
     setState("idle");
+    // Re-check guest limit after reset
+    if (!initialIsSignedIn && localStorage.getItem("voxnote_free_used")) {
+      setGuestLimitReached(true);
+    }
   };
 
   return (
@@ -141,8 +154,41 @@ export function VoiceRecorder({ initialIsSignedIn, limitReached }: { initialIsSi
         </div>
       )}
 
+      {/* GUEST FREE LIMIT — sign in banner */}
+      {!isSignedIn && guestLimitReached && state === "idle" && (
+        <div className="flex flex-col items-center gap-4 w-full">
+          <div className="w-20 h-20 rounded-full bg-gray-700/50 border-2 border-dashed border-gray-600 flex items-center justify-center">
+            <Mic className="w-8 h-8 text-gray-600" />
+          </div>
+          <div className="text-center">
+            <p className="text-gray-300 font-medium mb-1">Free recording used</p>
+            <p className="text-xs text-gray-500">Sign in to get more recordings</p>
+          </div>
+          <div className="w-full bg-gradient-to-r from-blue-600/20 to-violet-600/20 border border-blue-500/30 rounded-xl p-4 text-center">
+            <LogIn className="w-5 h-5 text-blue-400 mx-auto mb-2" />
+            <p className="text-sm font-semibold text-white mb-1">Sign in to continue</p>
+            <p className="text-xs text-gray-400 mb-3">Get 2 free recordings/month with a free account</p>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                className="flex-1 border-blue-500/30 text-blue-300 hover:bg-blue-600/20"
+                onClick={() => router.push("/sign-in")}
+              >
+                Sign In
+              </Button>
+              <Button
+                className="flex-1 bg-violet-600 hover:bg-violet-500"
+                onClick={() => router.push("/sign-up")}
+              >
+                Sign Up Free
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* IDLE — show start button */}
-      {!limitReached && state === "idle" && (
+      {!limitReached && !guestLimitReached && state === "idle" && (
         <div className="flex flex-col items-center gap-4">
           <Button
             id="start-recording-btn"
