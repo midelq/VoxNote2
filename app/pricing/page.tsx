@@ -4,28 +4,26 @@ import { useState } from "react";
 import { Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Navbar } from "@/components/navbar";
 import { toast } from "sonner";
-import { useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
+// Pricing page is a Client Component — Navbar is rendered server-side from layout
 export default function PricingPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const { isSignedIn } = useAuth();
   const router = useRouter();
 
   const handleSubscribe = async () => {
-    if (!isSignedIn) {
-      toast.error("Please sign in to subscribe.");
-      router.push("/sign-up");
-      return;
-    }
-
     setIsLoading(true);
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
       });
+
+      if (res.status === 401) {
+        toast.error("Please sign in to subscribe.");
+        router.push("/sign-in");
+        return;
+      }
 
       const data = await res.json();
       if (data.url) {
@@ -43,8 +41,6 @@ export default function PricingPage() {
 
   return (
     <main className="min-h-screen pt-24 px-4 bg-[hsl(240,10%,3.9%)]">
-      <Navbar />
-      
       <div className="max-w-4xl mx-auto text-center mb-16">
         <h1 className="text-4xl sm:text-5xl font-bold mb-6 gradient-text">Simple, transparent pricing</h1>
         <p className="text-gray-400 text-lg">Choose the plan that fits your needs. No hidden fees.</p>

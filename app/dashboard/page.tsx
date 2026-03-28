@@ -1,7 +1,6 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { Navbar } from "@/components/navbar";
 import { VoiceRecorder } from "@/components/voice-recorder";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -53,7 +52,6 @@ export default async function DashboardPage() {
 
   return (
     <main className="min-h-screen pt-24 pb-12 px-4 bg-[hsl(240,10%,3.9%)]">
-      <Navbar />
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Recorder */}
@@ -68,7 +66,7 @@ export default async function DashboardPage() {
             </div>
           </div>
           
-          <VoiceRecorder />
+          <VoiceRecorder initialIsSignedIn={!!userId} />
           
           <Card className="glass border-white/5">
             <CardHeader>
