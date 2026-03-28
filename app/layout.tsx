@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/navbar";
 import "./globals.css";
@@ -24,7 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider afterSignOutUrl="/">
+    <ClerkProvider 
+      afterSignOutUrl="/"
+      appearance={{
+        baseTheme: dark,
+        variables: {
+          colorPrimary: "#8b5cf6",
+        },
+      }}
+    >
       <html lang="en" className="dark">
         <body className={inter.className}>
           <Navbar />

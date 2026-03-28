@@ -34,11 +34,7 @@ export async function Navbar() {
             </>
           ) : (
             <div className="flex items-center gap-2">
-              <SignInButton mode="modal">
-                <button className="text-sm font-medium text-gray-400 hover:text-white transition-colors px-3 py-2 rounded-md hover:bg-white/5">
-                  Sign In
-                </button>
-              </SignInButton>
+              <SignInButton mode="modal"><button className="text-sm font-medium text-gray-400 hover:text-white transition-colors px-3 py-2 rounded-md hover:bg-white/5">Sign In</button></SignInButton>
               <Link href="/sign-up">
                 <Button className="bg-violet-600 hover:bg-violet-500 text-white border-0">
                   Get Started

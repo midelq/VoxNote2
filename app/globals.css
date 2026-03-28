@@ -72,12 +72,40 @@
   }
 }
 
+
+@keyframes float {
+  0%, 100% { transform: translate(-50%, -5%); }
+  50% { transform: translate(-50%, 5%); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -20px); }
+}
+
 @layer utilities {
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-violet-400 via-purple-500 to-blue-400;
   }
   .glass {
     @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+  .animate-float {
+    animation: float 10s ease-in-out infinite;
+  }
+  .animate-float-slow {
+    animation: float-slow 15s ease-in-out infinite;
+  }
+  .glow-card {
+    @apply relative overflow-hidden;
+  }
+  .glow-card::after {
+    content: "";
+    @apply absolute inset-0 opacity-0 transition-opacity duration-500 pointer-events-none;
+    background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(139, 92, 246, 0.1), transparent 40%);
+  }
+  .glow-card:hover::after {
+    @apply opacity-100;
   }
 }
 

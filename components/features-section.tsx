@@ -1,4 +1,7 @@
+"use client";
+
 import { Mic, Zap, Shield, Database, MessageSquare, Globe } from "lucide-react";
+import { motion } from "framer-motion";
 
 const features = [
   {
@@ -47,22 +50,32 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section className="py-24 px-4">
+    <section className="py-24 px-4 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white">
             Everything you need to{" "}
             <span className="gradient-text">capture ideas</span>
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             A complete voice-to-text platform powered by the latest AI technology.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature) => (
-            <div
+          {features.map((feature, index) => (
+            <motion.div
               key={feature.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               className="glass rounded-2xl p-6 hover:border-violet-500/30 transition-all duration-300 group hover:-translate-y-1"
             >
               <div className={`w-12 h-12 rounded-xl ${feature.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
@@ -70,7 +83,7 @@ export function FeaturesSection() {
               </div>
               <h3 className="font-semibold text-lg mb-2 text-white">{feature.title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">{feature.description}</p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
