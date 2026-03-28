@@ -23,31 +23,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isClerkConfigured = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.startsWith('pk_');
-
-  const content = (
-    <>
-      <Navbar />
-      {children}
-      <Toaster richColors position="top-right" />
-    </>
-  );
-
-  if (!isClerkConfigured) {
-    return (
-      <html lang="en" className="dark">
-        <body className={inter.className}>
-          {content}
-        </body>
-      </html>
-    );
-  }
-
   return (
     <ClerkProvider afterSignOutUrl="/">
       <html lang="en" className="dark">
         <body className={inter.className}>
-          {content}
+          <Navbar />
+          {children}
+          <Toaster richColors position="top-right" />
         </body>
       </html>
     </ClerkProvider>

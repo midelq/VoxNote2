@@ -5,17 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Mic } from "lucide-react";
 
 export async function Navbar() {
-  const isClerkConfigured = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.startsWith('pk_');
-  let userId = null;
-
-  if (isClerkConfigured) {
-    try {
-      const authData = await auth();
-      userId = authData.userId;
-    } catch (e) {
-      console.log("Navbar: Clerk not ready");
-    }
-  }
+  const { userId } = await auth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-lg border-b border-white/10 h-16">
@@ -44,26 +34,16 @@ export async function Navbar() {
             </>
           ) : (
             <div className="flex items-center gap-2">
-              {isClerkConfigured ? (
-                <>
-                  <SignInButton mode="modal">
-                    <Button variant="ghost" className="text-gray-400 hover:text-white">
-                      Sign In
-                    </Button>
-                  </SignInButton>
-                  <Link href="/sign-up">
-                    <Button className="bg-violet-600 hover:bg-violet-500 text-white border-0">
-                      Get Started
-                    </Button>
-                  </Link>
-                </>
-              ) : (
-                <Link href="/dashboard">
-                  <Button className="bg-violet-600 hover:bg-violet-500 text-white border-0">
-                    Preview Dashboard
-                  </Button>
-                </Link>
-              )}
+              <SignInButton mode="modal">
+                <button className="text-sm font-medium text-gray-400 hover:text-white transition-colors px-3 py-2 rounded-md hover:bg-white/5">
+                  Sign In
+                </button>
+              </SignInButton>
+              <Link href="/sign-up">
+                <Button className="bg-violet-600 hover:bg-violet-500 text-white border-0">
+                  Get Started
+                </Button>
+              </Link>
             </div>
           )}
         </div>
