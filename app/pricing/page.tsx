@@ -57,7 +57,7 @@ export default function PricingPage() {
             <div className="text-3xl font-bold mb-6">$0 <span className="text-sm text-gray-400 font-normal">/ month</span></div>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm text-gray-300">
-                <Check className="w-4 h-4 text-violet-400" /> 1 free recording
+                <Check className="w-4 h-4 text-violet-400" /> 2 recordings per month
               </li>
               <li className="flex items-center gap-2 text-sm text-gray-300">
                 <Check className="w-4 h-4 text-violet-400" /> Basic transcription

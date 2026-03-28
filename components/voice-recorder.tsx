@@ -83,6 +83,16 @@ export function VoiceRecorder({ initialIsSignedIn }: { initialIsSignedIn?: boole
       const formData = new FormData();
       formData.append("file", blobRef.current, "recording.webm");
       const res = await fetch("/api/transcribe", { method: "POST", body: formData });
+
+      if (res.status === 403) {
+        const data = await res.json();
+        if (data.limitReached) {
+          toast.error("Monthly limit reached! Upgrade to Pro for unlimited recordings.");
+          router.push("/pricing");
+          return;
+        }
+      }
+
       if (!res.ok) throw new Error("Transcription failed");
       const data = await res.json();
       setTranscript(data.text);
