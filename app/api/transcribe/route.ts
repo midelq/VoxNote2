@@ -10,6 +10,7 @@ const openai = new OpenAI({
 const FREE_MONTHLY_LIMIT = 2;
 
 export async function POST(req: NextRequest) {
+  console.log("🚀 [TRANSCRIBE] Incoming request...");
   try {
     const { userId } = await auth();
     const formData = await req.formData();
@@ -64,6 +65,8 @@ export async function POST(req: NextRequest) {
         model: "whisper-1",
       });
 
+      console.log("✅ [WHISPER] Transcription received from OpenAI API");
+
       const text = transcription.text;
 
       // Save recording to DB
@@ -82,6 +85,8 @@ export async function POST(req: NextRequest) {
       file,
       model: "whisper-1",
     });
+
+    console.log("✅ [WHISPER GUEST] Transcription received from OpenAI API");
 
     return NextResponse.json({ text: transcription.text });
   } catch (error) {

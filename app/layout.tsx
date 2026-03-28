@@ -38,7 +38,7 @@ export default function RootLayout({
         <body className={inter.className}>
           <Navbar />
           {children}
-          <Toaster richColors position="top-right" />
+          <Toaster position="top-center" />
         </body>
       </html>
     </ClerkProvider>

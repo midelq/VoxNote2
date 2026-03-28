@@ -107,7 +107,7 @@ export function VoiceRecorder({ initialIsSignedIn, limitReached }: { initialIsSi
       setTranscript(data.text);
       setState("transcribed");
       if (!isSignedIn) localStorage.setItem("voxnote_free_used", "true");
-      toast.success("Done!");
+      toast.success("Transcription ready!");
     } catch {
       toast.error("Transcription failed.");
     } finally {
