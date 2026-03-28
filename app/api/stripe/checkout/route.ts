@@ -17,7 +17,7 @@ export async function POST(req: Request) {
       where: { clerkId: userId },
     });
 
-    if (dbUser?.stripeCustomerId && dbUser.subscriptionStatus === "active") {
+    if (dbUser?.stripeCustomerId && dbUser.subscriptionStatus === "pro") {
         return NextResponse.json({ url: "/dashboard" });
     }
 

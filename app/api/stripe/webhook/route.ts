@@ -37,13 +37,13 @@ export async function POST(req: NextRequest) {
       },
       update: {
         stripeCustomerId: session.customer as string,
-        subscriptionStatus: "active",
+        subscriptionStatus: "pro",
       },
       create: {
         clerkId: session.metadata.clerkUserId,
         email: session.customer_details?.email || "",
         stripeCustomerId: session.customer as string,
-        subscriptionStatus: "active",
+        subscriptionStatus: "pro",
       },
     });
   }
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
         stripeCustomerId: subscription.customer as string,
       },
       data: {
-        subscriptionStatus: "active",
+        subscriptionStatus: "pro",
       },
     });
   }
