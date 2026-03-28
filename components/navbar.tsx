@@ -14,7 +14,7 @@ export async function Navbar() {
           <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center group-hover:bg-violet-500 transition-colors">
             <Mic className="w-5 h-5 text-white" />
           </div>
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">
+          <span className="text-2xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white via-violet-200 to-gray-500">
             VoxNote
           </span>
         </Link>
