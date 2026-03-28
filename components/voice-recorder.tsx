@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { Mic, Loader2, Play, Trash2, ArrowRight, StopCircle } from "lucide-react";
+import { Mic, Loader2, Play, Trash2, ArrowRight, StopCircle, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 
 type RecordingState = "idle" | "recording" | "recorded" | "transcribed";
 
-export function VoiceRecorder({ initialIsSignedIn }: { initialIsSignedIn?: boolean }) {
+export function VoiceRecorder({ initialIsSignedIn, limitReached }: { initialIsSignedIn?: boolean; limitReached?: boolean }) {
   const [state, setState] = useState<RecordingState>("idle");
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<string | null>(null);
@@ -117,8 +117,32 @@ export function VoiceRecorder({ initialIsSignedIn }: { initialIsSignedIn?: boole
   return (
     <Card className="p-8 glass border-white/10 glow-purple flex flex-col items-center gap-6 w-full">
 
+      {/* LIMIT REACHED — upgrade banner */}
+      {limitReached && state === "idle" && (
+        <div className="flex flex-col items-center gap-4 w-full">
+          <div className="w-20 h-20 rounded-full bg-gray-700/50 border-2 border-dashed border-gray-600 flex items-center justify-center">
+            <Mic className="w-8 h-8 text-gray-600" />
+          </div>
+          <div className="text-center">
+            <p className="text-gray-400 font-medium mb-1">Monthly limit reached</p>
+            <p className="text-xs text-gray-500">You&apos;ve used all 2 free recordings this month</p>
+          </div>
+          <div className="w-full bg-gradient-to-r from-violet-600/20 to-purple-600/20 border border-violet-500/30 rounded-xl p-4 text-center">
+            <Zap className="w-5 h-5 text-violet-400 mx-auto mb-2" />
+            <p className="text-sm font-semibold text-white mb-1">Upgrade to Pro</p>
+            <p className="text-xs text-gray-400 mb-3">Unlimited recordings, priority support</p>
+            <Button
+              className="bg-violet-600 hover:bg-violet-500 text-white w-full"
+              onClick={() => router.push("/pricing")}
+            >
+              <Zap className="w-4 h-4 mr-2" /> Upgrade Now
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* IDLE — show start button */}
-      {state === "idle" && (
+      {!limitReached && state === "idle" && (
         <div className="flex flex-col items-center gap-4">
           <Button
             id="start-recording-btn"

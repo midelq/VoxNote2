@@ -71,7 +71,7 @@ export default async function DashboardPage() {
             </div>
           </div>
 
-          <VoiceRecorder initialIsSignedIn={true} />
+          <VoiceRecorder initialIsSignedIn={true} limitReached={!isPro && monthlyCount >= 2} />
 
           {/* Subscription Card */}
           <Card className="glass border-white/5">
