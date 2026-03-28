@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VoxNote 🎙️
 
-## Getting Started
+Voice-to-Text Micro MVP built with Next.js 14, Clerk, OpenAI Whisper/GPT-4, Prisma, Supabase, and Stripe.
 
-First, run the development server:
+## Features
+- **1 Free Recording**: Users can record and transcribe once without an account.
+- **Pay-to-Unlock**: Users must sign in (Clerk) and subscribe (Stripe) for unlimited access.
+- **AI Transcription**: High-accuracy speech-to-text using OpenAI Whisper.
+- **AI Analysis**: Get ChatGPT-powered summaries and insights from your recordings.
+- **Recording History**: All transcriptions are saved to Supabase (via Prisma) for pro users.
 
+## Setup Instructions
+
+### 1. Environment Variables
+Copy the content of `.env.local` and fill in your real API keys from:
+- [Clerk Dashboard](https://dashboard.clerk.com/)
+- [OpenAI Dashboard](https://platform.openai.com/)
+- [Supabase Dashboard](https://supabase.com/dashboard)
+- [Stripe Dashboard](https://dashboard.stripe.com/)
+
+### 2. Database Setup
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx prisma db push
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. Stripe Webhook
+If testing locally, use the Stripe CLI:
+```bash
+stripe listen --forward-to localhost:3000/api/stripe/webhook
+```
+Copy the webhook secret to `STRIPE_WEBHOOK_SECRET` in `.env.local`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Clerk Webhook
+Set up a webhook in the Clerk Dashboard pointing to `https://your-domain.com/api/webhooks/clerk` with the `user.created` and `user.updated` events.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Tech Stack
+- **Framework**: Next.js 14 (App Router)
+- **Auth**: Clerk
+- **AI**: OpenAI (Whisper-1, GPT-4)
+- **Database**: Supabase + Prisma ORM
+- **Payments**: Stripe Subscriptions
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Icons**: Lucide React
