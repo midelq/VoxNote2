@@ -1,0 +1,10 @@
+Analyze the following transcript from a voice recording. 
+Provide a concise summary and extract any key action items or important points in a bulleted list.
+
+Transcript: {{transcript}}
+
+Response format:
+Summary: <concise summary>
+Key Highlights:
+- <point 1>
+- <point 2>

@@ -1,0 +1,26 @@
+description: "VoxNote - AI Transcript Analysis Evaluation"
+
+prompts:
+  - prompts/analyze.txt
+
+providers:
+  - id: openai:gpt-4o-mini
+    label: "GPT-4o Mini (Fast/Cheap)"
+    config:
+      temperature: 0.7
+  - id: openai:gpt-4o
+    label: "GPT-4o (Smart/Pro)"
+    config:
+      temperature: 0.7
+
+tests:
+  - tests/transcripts.csv
+
+defaultTest:
+  assert:
+    - type: icontains
+      value: "Summary:"
+    - type: icontains
+      value: "Key Highlights:"
+    - type: javascript
+      value: "output.includes('- ')"
